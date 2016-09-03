@@ -52,28 +52,6 @@ $(document).ready(function() {
 			function () {
 				$(this).css("color", "black");
 			});
-
-	function countDown() {
-		timeLeft--;
-		$("#time-left").html("<p>time left: " + timeLeft + " seconds</p>");
-		if (timeLeft === 0) {
-			stopTimer();
-			timeUp();
-		}
-	}
-
-	function startTimer() {
-		$(".content1").show();
-		timeLeft = 10;
-		$(".content1").html("<p id='time-left'>time left: " + timeLeft + " seconds</p>"); 
-		counter = setInterval(countDown, 1000);
-	}
-
-	function stopTimer() {
-		clearInterval(counter);
-		$(".content1").hide();
-	}	
-
 	
 	function newGame() {
 		remainingQuestions = questions.slice();
@@ -105,7 +83,6 @@ $(document).ready(function() {
 			startTimer();
 		}
 	}
-
 	
 	function addEventListeners() {
 			$(".answer").hover(function () {
@@ -118,37 +95,23 @@ $(document).ready(function() {
 			$(".answer").click(function () {
 				var guessedAnswer = parseInt($(this).attr("id"));
 				if (guessedAnswer === currentQuestion.answer) {
-				rightAnswer();
+					right++;
+					result("Right");
 				} else {
-					wrongAnswer();
+					wrong++;
+					result("Wrong");
 				}
 			});
 	}
 
-	function rightAnswer() {
+	function result(outcome) {
 		stopTimer();
-		$(".content").html("<p class='first'>Right!</p><p>The answer is " + currentQuestion.answers[currentQuestion.answer] + ".</p>");
-		$(".content").append("<img src='assets/images/" + currentQuestion.image + "' height='300px'>");
-		right++;
+		var result = $("<div>");
+		result.html("<p class='first'>" + outcome + "!</p><p>The answer is " + currentQuestion.answers[currentQuestion.answer] + ".</p>");
+		result.append("<img src='assets/images/" + currentQuestion.image + "' height='300px'>");
+		$(".content").html(result);
 		setTimeout(newQuestion, 3000);
 	}
-
-	function wrongAnswer() {
-		stopTimer();
-		$(".content").html("<p class='first'>Wrong!</p><p>The right answer is " + currentQuestion.answers[currentQuestion.answer]+ ".</p>"); 
-		$(".content").append("<img src='assets/images/" + currentQuestion.image + "' height='300px'>");
-		wrong++;
-		setTimeout(newQuestion, 3000);
-	}
-
-	function timeUp() {
-		stopTimer();
-		$(".content").html("<p class='first'>Time is up!</p><p>The right answer is " + currentQuestion.answers[currentQuestion.answer] + ".</p>");  
-		$(".content").append("<img src='assets/images/" + currentQuestion.image + "' height='300px'>");
-		unanswered++;
-		setTimeout(newQuestion, 3000);
-	}
-
 
 	function gameOver() {
 		$(".content").html("<p class='first'>Game over!</p><p>right answers: " + right + "</p><p>wrong answers: " + wrong + "</p><p>unwanswered questions: " + unanswered + "</p>");
@@ -162,6 +125,28 @@ $(document).ready(function() {
 		$("#restart").click(newGame);
 
 	}
+
+	function countDown() {
+		timeLeft--;
+		$("#time-left").html("<p>time left: " + timeLeft + " seconds</p>");
+		if (timeLeft === 0) {
+			stopTimer();
+			unanswered++;
+			result("Time is up");
+		}
+	}
+
+	function startTimer() {
+		$(".timer").show();
+		timeLeft = 15;
+		$(".timer").html("<p id='time-left'>time left: " + timeLeft + " seconds</p>"); 
+		counter = setInterval(countDown, 1000);
+	}
+
+	function stopTimer() {
+		clearInterval(counter);
+		$(".timer").hide();
+	}	
 
 });
 
