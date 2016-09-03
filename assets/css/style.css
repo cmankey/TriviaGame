@@ -1,0 +1,35 @@
+
+* {
+	font-size: 22px;
+}
+
+.page-header {
+	font-size: 48px;
+}
+
+.first {
+	font-size: 26px;
+	font-weight: bold;
+}
+
+.question {
+	font-weight: bold;
+}
+
+.main {
+	padding-right: 10%;
+	padding-left: 10%;
+	height: 700px;
+}
+
+
+#start, #restart {
+	border-radius: 0px;
+	border-style: solid;
+	background-color: white;
+	font-size: 22px;
+}
+
+#restart {
+	margin-top: 12px;
+}
